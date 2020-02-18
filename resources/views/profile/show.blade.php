@@ -11,9 +11,9 @@
 			<div class="col-8">
 				<div class='d-flex align-items-center mb-3'>
 					<div class="h4">{{ $user->username }}</div>
-					@if ($follows)	
+					@empty ($home)	
 						<follow-button user-id={{ $user->id }} follows={{ $follows }}></follow-button>
-					@endif
+					@endempty
 					@can('update', $user->profile)
 						<div class="ml-3">
 							<a href="/profile/{{ $user->id }}/edit">Edit profile</a>   <a href="/p/create" class="ml-3">Add post</a>
@@ -26,10 +26,10 @@
 						<p><span class="font-weight-bold">{{ $user->posts()->count()}}</span> posts</p>
 					</div>
 					<div class="col col-lg-2">
-						<p><span class="font-weight-bold">{{ $user->profile->followers()->count() }}</span> followers </p>
+						<p><a href="/profile/{{ $user->id }}/followed"><span class="font-weight-bold">{{ $user->profile->followers()->count() }}</span> followers </a></p>
 					</div>
 					<div class="col col-lg-2">
-						<p><span class="font-weight-bold">{{ $user->following()->count() }}</span> following</p>
+						<p><a href="/profile/{{ $user->id }}/follow"><span class="font-weight-bold">{{ $user->following()->count() }}</span> following</a></p>
 					</div>
 				</div>
 				<div>

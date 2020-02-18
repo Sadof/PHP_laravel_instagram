@@ -18,8 +18,8 @@ Route::get('/', function () {
 Auth::routes();
 
 
-
-Route::get('/home', 'ProfileController@index')->name('home')->middleware('auth');
+Route::get('profile/', 'ProfileController@index');
+Route::get('/home', 'ProfileController@home')->name('home')->middleware('auth');
 Route::get('profile/{user}/', 'ProfileController@show');
 Route::get('profile/{user}/edit', 'ProfileController@edit');
 Route::patch('profile/{user}', 'ProfileController@update');

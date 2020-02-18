@@ -23,4 +23,9 @@ class Profile extends Model
 	public function followers(){
 		return $this->belongsToMany(User::class);
 	}
+
+	public static function followers_list(){
+
+		return Profile::withCount('followers')->orderBy('followers_count', 'desc')->get();
+	}
 }

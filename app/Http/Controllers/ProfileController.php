@@ -4,28 +4,40 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Profile;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\DB;
+
+
 
 
 class ProfileController extends Controller
 {
 
-	public function index(){
+    public function index(){
+        $profiles = Profile::withCount('followers')->orderBy('followers_count', 'desc')->get();
+
+        $profiles = Profile::followers_list();
+        return view('profile.list', compact('profiles'));
+    }
+
+	public function home(){
 		$user = Auth::user();
         $follows = '';
-		return view('profile.show', compact('user', 'follows'));
+        $home = true;
+		return view('profile.show', compact('user', 'follows', 'home'));
 
 	}
 
     public function indexFollow(User $user){
-        $follow = $user->following();
-        dd($follow);
+        $follow = $user->following;
         return view('profile.follow', compact('user','follow'));
     }
 
     public function indexFollowed(User $user){
-        return view('profile.followed', compact('user'));
+        $following = $user->profile->followers;
+        return view('profile.followed', compact('user', 'following'));
     }
 
     public function show(User $user){
